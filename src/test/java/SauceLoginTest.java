@@ -12,8 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebElement;
@@ -70,7 +68,7 @@ public class SauceLoginTest implements SauceOnDemandSessionIdProvider {
      *
      * @throws Exception
      */
-    @BeforeClass
+    @BeforeClass()
     public void setUp() throws Exception {
         String sauceUserName = authentication.getUsername();
         String sauceAccessKey = authentication.getAccessKey();
@@ -78,6 +76,9 @@ public class SauceLoginTest implements SauceOnDemandSessionIdProvider {
         capabilities.setCapability("platformVersion", "9.3");
         capabilities.setCapability("deviceName", "iPhone 6");
         capabilities.setCapability("browserName", "safari");
+        capabilities.setCapability("browserVersion","8.0.8");
+        capabilities.setCapability("platformName","ios");
+        //capabilities.setCapability("platformVersion", "10.5.5");
         //capabilities.setCapability("app", "https://appium.s3.amazonaws.com/TestApp7.1.app.zip");
 
         driver = new IOSDriver<WebElement>(new URL(MessageFormat.format("http://{0}:{1}@ondemand.saucelabs.com:80/wd/hub", sauceUserName, sauceAccessKey)),
@@ -85,55 +86,32 @@ public class SauceLoginTest implements SauceOnDemandSessionIdProvider {
         this.sessionId = driver.getSessionId().toString();
         values = new ArrayList<Integer>();
     }
-
-
-
-    private void populate() {
-        //populate text fields with two random number
-        List<WebElement> elems = driver.findElementsByClassName("UIATextField");
-        Random random = new Random();
-        for (WebElement elem : elems) {
-            int rndNum = random.nextInt(MAXIMUM - MINIMUM + 1) + MINIMUM;
-            elem.sendKeys(String.valueOf(rndNum));
-            values.add(rndNum);
-        }
-    }
-
+    //get the URL
     @BeforeMethod
     public void loadLoginPage(){
         driver.get("http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/");
 
     }
-
-
+    //User login
     @Test(dataProviderClass = Dataprovider.class,
             dataProvider= "LoginTestDataProvider", enabled=true, description="Login",groups={"Smoke"},priority=1)
     public void testWithDataProvider(String username, String password) {
         Loginpage log = new Loginpage(driver, username, password);
         log.clickLogin();
     }
-   /* @Test
-    public void testSuccessfulLogin(){
-        //Creating instance of loginPage
-        Loginpage loginPage = new Loginpage(driver, TestConstants.availableEmail, TestConstants.password);
-        //Add the wrong user name
-        //loginPage.setEmailAddress(TestConstants.email);
-        //loginPage.setPassWord(TestConstants.password);
-        loginPage.clickLogin();
-        WebDriverWait wait1 = new WebDriverWait(driver, 10);
-        wait1.until(ExpectedConditions.urlToBe("http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talents.html"));
-        Assert.assertEquals(driver.getCurrentUrl(), "http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talents.html");
-    }*/
+    //User logout
     @AfterMethod
     public void logout()
     {
         TalentPage tal=new TalentPage(driver);
         tal.logout();
     }
+    //Driver close
     @AfterClass
     public void tearDown() throws Exception {
         driver.quit();
     }
+    //return session
     public String getSessionId() {
         return sessionId;
     }
