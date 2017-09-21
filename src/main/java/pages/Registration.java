@@ -32,6 +32,8 @@ public class Registration {
     WebElement registerRePassword;
     @FindBy(xpath = "//*[@id=\"createAccount\"]")
     WebElement createAccount;
+    @FindBy(xpath = "//*[@id=\"userType\"]")
+    WebElement scout;
 
     public Registration(WebDriver driver, String firstname,
                         String middlename, String lastname,String countryname,
@@ -58,6 +60,10 @@ public class Registration {
     public void createaccount() {
         createAccount.click();
     }
+    public void createScoutaccount() {
+        scout.click();
+    }
+
 
 
 }

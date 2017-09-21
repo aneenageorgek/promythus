@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
      *
      * @author Ross Rowe
      */
-    public class Sauceregistration implements SauceOnDemandSessionIdProvider {
+    public class SauceregistrationTalentIos implements SauceOnDemandSessionIdProvider {
 
         private AppiumDriver<WebElement> driver;
 
@@ -54,8 +54,8 @@ import static org.junit.Assert.assertEquals;
          * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
          * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
          */
-        public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("aneenageorgek",
-                "f8727bd5-12dc-40b2-8522-e5a22663ab1e");
+        public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("aneenageorgek4",
+                "b4e01ded-3bbc-4981-afa6-7bc8f77d9e76");
 
         /**
          * JUnit Rule which will mark the Sauce Job as passed/failed when the test succeeds or fails.
@@ -74,28 +74,17 @@ import static org.junit.Assert.assertEquals;
             String sauceUserName = authentication.getUsername();
             String sauceAccessKey = authentication.getAccessKey();
             DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("platform","ios");
             capabilities.setCapability("platformVersion", "9.3");
             capabilities.setCapability("deviceName", "iPhone 6");
             capabilities.setCapability("browserName", "safari");
-            //capabilities.setCapability("app", "https://appium.s3.amazonaws.com/TestApp7.1.app.zip");
+            capabilities.setCapability("browserVersion","8.0.8");
+            capabilities.setCapability("app", "https://appium.s3.amazonaws.com/TestApp7.1.app.zip");
 
             driver = new IOSDriver<WebElement>(new URL(MessageFormat.format("http://{0}:{1}@ondemand.saucelabs.com:80/wd/hub", sauceUserName, sauceAccessKey)),
                     capabilities);
             this.sessionId = driver.getSessionId().toString();
             values = new ArrayList<Integer>();
-        }
-
-
-
-        private void populate() {
-            //populate text fields with two random number
-            List<WebElement> elems = driver.findElementsByClassName("UIATextField");
-            Random random = new Random();
-            for (WebElement elem : elems) {
-                int rndNum = random.nextInt(MAXIMUM - MINIMUM + 1) + MINIMUM;
-                elem.sendKeys(String.valueOf(rndNum));
-                values.add(rndNum);
-            }
         }
 
         @BeforeMethod
@@ -111,22 +100,8 @@ import static org.junit.Assert.assertEquals;
             talentPage.logout();
         }
 
-        /*@Test
-        public void testUIComputation() throws Exception {
-
-            // populate text fields with values
-            populate();
-            // trigger computation by using the button
-            WebElement button = driver.findElementByClassName("UIAButton");
-            button.click();
-            // is sum equal ?
-            WebElement texts = driver.findElementByClassName("UIAStaticText");
-            assertEquals(String.valueOf(values.get(0) + values.get(1)), texts.getText());
-        }*/
-
         //Test for talent registration
-
-    @Test(dataProviderClass = DataproviderRegistration.class,
+        @Test(dataProviderClass = DataproviderRegistration.class,
                 dataProvider= "RegistrationTestDataProvider", enabled=true, description="Login",groups={"Smoke"},priority=1)
         public void testWithDataProvider( String firstname,String middlename,String lastname,String countryname,
                                          String address,String phone,
@@ -150,9 +125,8 @@ import static org.junit.Assert.assertEquals;
         wait2.until(ExpectedConditions.urlToBe("http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talents.html"));
     }
 
-
-        @Test (priority = 2,enabled = true, dependsOnGroups = {"Smoke"} ,description = "Entity created")
         //Test for yourself registration
+        @Test (priority = 2,enabled = true, dependsOnGroups = {"Smoke"} ,description = "Entity created")
         public void sucessfullRegistrationYourSelf() throws InterruptedException {
             String currentEmail = RandomStringUtils.randomAlphabetic(7) + "@agenda.com";
             String currentPassword = TestConstants.password;
@@ -178,7 +152,7 @@ import static org.junit.Assert.assertEquals;
             WebDriverWait waitAfterRadioClick = new WebDriverWait(driver, 10);
             yourself.clickOkInDialog();
             WebDriverWait wait5 = new WebDriverWait(driver, 20);
-            wait5.until(ExpectedConditions.urlToBe("http://52.53.181.39/talent?fill=true"));
+            wait5.until(ExpectedConditions.urlToBe("http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talent.html?step=1"));
             String actual = driver.getCurrentUrl();
             //Assert.assertEquals(actual, "http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talent.html?step=1");
             Assert.assertTrue(actual.contains("http://ec2-52-53-181-39.us-west-1.compute.amazonaws.com/talent.html?step=1"));
