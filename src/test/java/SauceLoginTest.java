@@ -1,28 +1,20 @@
 import static org.junit.Assert.assertEquals;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
-
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import org.junit.Rule;
 import org.testng.annotations.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import pages.Loginpage;
 import pages.TalentPage;
-import pages.TestConstants;
 
 /**
  * Simple test which demonstrates how to run an <a href="https://github.com/appium/appium">Appium</a>
