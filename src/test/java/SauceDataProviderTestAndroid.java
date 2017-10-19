@@ -2,25 +2,19 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.*;
-
 import static org.junit.Assert.*;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import pages.Loginpage;
 import pages.TalentPage;
 import pages.TestConstants;
-
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Simple TestNG test which demonstrates being instantiated via a DataProvider in order to supply multiple browser/device combinations.
@@ -32,7 +26,7 @@ public class SauceDataProviderTestAndroid implements SauceOnDemandSessionIdProvi
      * Constructs a {@link com.saucelabs.common.SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
      * supplied by environment variables or from an external file, use the no-arg {@link com.saucelabs.common.SauceOnDemandAuthentication} constructor.
      */
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("aneenageorgek4", "b4e01ded-3bbc-4981-afa6-7bc8f77d9e76");
+    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("aneenageorgek4", "b4e01ded-3bbc-4981-afa6-7bc8f77d9e76z");
 
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
@@ -57,12 +51,12 @@ public class SauceDataProviderTestAndroid implements SauceOnDemandSessionIdProvi
                 // Emulators
                 //new Object[]{"Android", "Samsung Galaxy S4 Emulator", "4.4", "Browser", "portrait"},
                 //new Object[]{"Android", "Google Nexus 7 HD Emulator", "4.4", "Browser", "portrait"},
-                new Object[]{"Android", "Android Emulator", "5.1", "Browser", "portrait"},
+                //new Object[]{"Android", "Android Emulator", "5.1", "Browser", "portrait"},
                 // Real Devices  - Make sure your Sauce Labs account has access to Real Devices before executing
                 //new Object[]{"Android", "Samsung Galaxy S4 Device", "4.4", "Chrome", "portrait"},
                 //new Object[]{"Android", "Samsung Galaxy S5 Device", "5.0", "Chrome", "portrait"},
                 //new Object[]{"Android", "Samsung Galaxy S6 Device", "6.0", "Chrome", "portrait"},
-                //new Object[]{"Android", "Samsung Galaxy S7 Device", "6.0", "Chrome", "portrait"},
+                new Object[]{"Android", "Samsung Galaxy S7 Device", "6.0", "Chrome", "portrait"},
         };
     }
 
@@ -126,11 +120,6 @@ public class SauceDataProviderTestAndroid implements SauceOnDemandSessionIdProvi
         TalentPage tal = new TalentPage(driver);
         tal.logout();
     }
-
-
-
-
-
     /**
      * @return the {@link WebDriver} for the current thread
      */
